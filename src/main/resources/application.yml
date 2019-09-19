@@ -1,0 +1,16 @@
+server:
+  port: 8888
+
+activemq:
+  url: tcp://localhost:61616
+  user: admin
+  password: admin
+ibm:
+  mq:
+    queue-manager: MQAZ01
+    channel: DEV.ADMIN.SVRCONN
+    conn-name: localhost(1414)
+    user: admin
+    password: passw0rd
+    destination:
+      queue: DEV.QUEUE.1

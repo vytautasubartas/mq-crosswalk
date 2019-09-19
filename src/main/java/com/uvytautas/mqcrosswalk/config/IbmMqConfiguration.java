@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MqCrosswalkConfiguration {
-
-
+public class IbmMqConfiguration {
     @Bean
     public JmsComponent ibmmq(MQConnectionFactory mqConnectionFactory) {
         JmsComponent ibmmq = new JmsComponent();

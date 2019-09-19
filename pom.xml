@@ -50,6 +50,13 @@
 			<artifactId>camel-jms</artifactId>
 			<version>2.24.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-camel</artifactId>
+			<version>5.6.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

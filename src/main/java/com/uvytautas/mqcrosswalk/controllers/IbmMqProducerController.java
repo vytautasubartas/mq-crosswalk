@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class IbmMqProducerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IbmMqProducerController.class);
-
-    @Value("${ibm.mq.destination.queue}")
-    private String destinationQueue;
-
     private final JmsTemplate jmsTemplate;
 
     public IbmMqProducerController(JmsTemplate jmsTemplate) {
@@ -26,13 +22,11 @@ public class IbmMqProducerController {
     }
 
     @PostMapping("send")
-    public void send(@RequestBody String request) {
+    public void send(@RequestBody String request, @Value("${ibm.mq.destination.queue}") String destinationQueue) {
         try {
             jmsTemplate.convertAndSend(destinationQueue, request);
-
         } catch (JmsException ex) {
             LOGGER.error("Can't post to Ibm mq", ex);
-
         }
     }
 

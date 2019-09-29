@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk;
+package com.uvytautas.mqcrosswalk.config;
 
 import com.ibm.mq.jms.MQConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;

@@ -2,6 +2,7 @@ package com.uvytautas.mqcrosswalk.camel.routes;
 
 import com.uvytautas.mqcrosswalk.camel.processors.DocumentProcessor;
 import com.uvytautas.mqcrosswalk.camel.processors.TraceLogProcessor;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ public class MqCrosswalkRoutes extends RouteBuilder {
 
     @Override
     public void configure() {
+
+        from("netty4-http:http://0.0.0.0:9999/healthcheck").log(LoggingLevel.INFO, "Health Check ping");
 
         from("netty4-http:http://0.0.0.0:9999/input")
                 .process(traceLogProcessor)

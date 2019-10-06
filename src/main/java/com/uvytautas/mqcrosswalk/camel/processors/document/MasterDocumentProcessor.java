@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk.camel.processors;
+package com.uvytautas.mqcrosswalk.camel.processors.document;
 
 import com.uvytautas.mqcrosswalk.camel.util.Constants;
 import com.uvytautas.mqcrosswalk.domain.Document;
@@ -9,11 +9,11 @@ import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DocumentProcessor implements Processor {
+public class MasterDocumentProcessor implements Processor {
 
     private final DocumentRepository documentRepository;
 
-    public DocumentProcessor(DocumentRepository documentRepository) {
+    public MasterDocumentProcessor(DocumentRepository documentRepository) {
         this.documentRepository = documentRepository;
     }
 

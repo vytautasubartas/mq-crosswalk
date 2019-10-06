@@ -2,6 +2,7 @@ package com.uvytautas.mqcrosswalk.camel.routes;
 
 import com.uvytautas.mqcrosswalk.camel.processors.DocumentProcessor;
 import com.uvytautas.mqcrosswalk.camel.processors.TraceLogProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.Constants;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ public class MqCrosswalkRoutes extends RouteBuilder {
 
         from("ibmmq:queue:DEV.QUEUE.1")
                 .process(traceLogProcessor)
+                .setHeader(Constants.DOCUMENT_CODE_HEADER).xpath("/Document/@code", String.class)
                 .process(documentProcessor)
                 .to("activemq:queue:ibmmqconsumer");
     }

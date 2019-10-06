@@ -1,7 +1,10 @@
 package com.uvytautas.mqcrosswalk.camel.routes;
 
-import com.uvytautas.mqcrosswalk.camel.processors.DocumentProcessor;
-import com.uvytautas.mqcrosswalk.camel.processors.TraceLogProcessor;
+import com.uvytautas.mqcrosswalk.camel.processors.document.MasterDocumentProcessor;
+import com.uvytautas.mqcrosswalk.camel.processors.document.UpdateDocumentProcessor;
+import com.uvytautas.mqcrosswalk.camel.processors.logging.TraceLogProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.Constants;
+import com.uvytautas.mqcrosswalk.camel.util.DocumentTypes;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -11,11 +14,13 @@ public class MqCrosswalkRoutes extends RouteBuilder {
 
 
     private final TraceLogProcessor traceLogProcessor;
-    private final DocumentProcessor documentProcessor;
+    private final MasterDocumentProcessor masterDocumentProcessor;
+    private final UpdateDocumentProcessor updateDocumentProcessor;
 
-    public MqCrosswalkRoutes(TraceLogProcessor traceLogProcessor, DocumentProcessor documentProcessor) {
+    public MqCrosswalkRoutes(TraceLogProcessor traceLogProcessor, MasterDocumentProcessor masterDocumentProcessor, UpdateDocumentProcessor updateDocumentProcessor) {
         this.traceLogProcessor = traceLogProcessor;
-        this.documentProcessor = documentProcessor;
+        this.masterDocumentProcessor = masterDocumentProcessor;
+        this.updateDocumentProcessor = updateDocumentProcessor;
     }
 
     @Override
@@ -29,7 +34,18 @@ public class MqCrosswalkRoutes extends RouteBuilder {
 
         from("ibmmq:queue:DEV.QUEUE.1")
                 .process(traceLogProcessor)
-                .process(documentProcessor)
+                .setHeader(Constants.DOCUMENT_CODE_HEADER).xpath("/Document/@code", String.class)
+                .setHeader(Constants.DOCUMENT_TYPE_HEADER).xpath("/Document/@type", String.class)
+                .choice().when(header(Constants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.MASTER.toString()))
+                .log("Master received")
+                .process(masterDocumentProcessor)
+                .endChoice()
+                .when(header(Constants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))
+                .log("Update received")
+                .process(updateDocumentProcessor)
+                .endChoice()
+                .otherwise().log("UNKNOWN DOC TYPE")
+                .end()
                 .to("activemq:queue:ibmmqconsumer");
     }
 }

@@ -1,7 +1,5 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
-import com.uvytautas.mqcrosswalk.camel.processor.document.MasterDocumentProcessor;
-import com.uvytautas.mqcrosswalk.camel.processor.document.UpdateDocumentProcessor;
 import com.uvytautas.mqcrosswalk.camel.processor.header.PayloadHeaderProcessor;
 import com.uvytautas.mqcrosswalk.camel.processor.logging.TraceLogProcessor;
 import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
@@ -14,14 +12,10 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
     private final String uri;
 
     private final TraceLogProcessor traceLogProcessor;
-    private final MasterDocumentProcessor masterDocumentProcessor;
-    private final UpdateDocumentProcessor updateDocumentProcessor;
     private final PayloadHeaderProcessor payloadHeaderProcessor;
 
-    public IbmMqInputRoute(TraceLogProcessor traceLogProcessor, MasterDocumentProcessor masterDocumentProcessor, UpdateDocumentProcessor updateDocumentProcessor, PayloadHeaderProcessor payloadHeaderProcessor) {
+    public IbmMqInputRoute(TraceLogProcessor traceLogProcessor, PayloadHeaderProcessor payloadHeaderProcessor) {
         this.traceLogProcessor = traceLogProcessor;
-        this.masterDocumentProcessor = masterDocumentProcessor;
-        this.updateDocumentProcessor = updateDocumentProcessor;
         this.uri = "ibmmq:queue:DEV.QUEUE.1";
         this.payloadHeaderProcessor = payloadHeaderProcessor;
     }
@@ -37,13 +31,10 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
                 .process(traceLogProcessor)
                 .process(payloadHeaderProcessor)
                 .choice().when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.MASTER.toString()))
-                .log("Master received")
-                .to("xslt:xslt/initial_transform.xsl")
-                .process(masterDocumentProcessor)
+                .to("direct:master")
                 .endChoice()
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))
-                .log("Update received")
-                .process(updateDocumentProcessor)
+                .to("direct:update")
                 .endChoice()
                 .otherwise().log("UNKNOWN DOC TYPE")
                 .end()

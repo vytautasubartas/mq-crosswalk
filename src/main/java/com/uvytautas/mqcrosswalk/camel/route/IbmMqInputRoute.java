@@ -5,7 +5,6 @@ import com.uvytautas.mqcrosswalk.camel.processor.document.UpdateDocumentProcesso
 import com.uvytautas.mqcrosswalk.camel.processor.logging.TraceLogProcessor;
 import com.uvytautas.mqcrosswalk.camel.util.Constants;
 import com.uvytautas.mqcrosswalk.camel.util.DocumentTypes;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +29,6 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
 
     @Override
     public void configure() {
-        from("netty4-http:http://0.0.0.0:9999/healthcheck").log(LoggingLevel.INFO, "Health Check ping");
-
 
         from(uri)
                 .process(traceLogProcessor)

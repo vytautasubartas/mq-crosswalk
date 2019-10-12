@@ -18,13 +18,31 @@ ibmmq:
     queue: DEV.QUEUE.1
 
 spring:
+  main:
+    banner-mode: 'OFF'
+  jmx:
+    enabled: false
   datasource:
     driverClassName: org.h2.Driver
     password: password
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:~/testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
     username: sa
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   h2:
     console:
       enabled: true
+
+camel:
+  health:
+    enabled: false
+  component:
+    mock:
+      enabled: false
+    test:
+      enabled: false
+  springboot:
+    jmx-enabled: false
+    message-history: false
+    xml-routes: false
+    xml-rests: false

@@ -3,7 +3,6 @@ package com.uvytautas.mqcrosswalk.config;
 import com.ibm.mq.jms.MQConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.component.jms.JmsComponent;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +14,8 @@ import static com.ibm.msg.client.wmq.common.CommonConstants.*;
 @Configuration
 public class MainConfiguration {
 
-    @Bean("activemq-conn-factory")
-    public ActiveMQConnectionFactory createActiveMqConnectionFactory(@Value("${activemq.user}") String username, @Value("${activemq.password}") String password, @Value("${activemq.url}") String brokerUrl) {
+    @Bean
+    public ActiveMQConnectionFactory activeMqConnectionFactory(@Value("${activemq.user}") String username, @Value("${activemq.password}") String password, @Value("${activemq.url}") String brokerUrl) {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setUserName(username);
         activeMQConnectionFactory.setPassword(password);
@@ -26,12 +25,12 @@ public class MainConfiguration {
 
 
     @Bean(name = "activemq")
-    public JmsComponent activeMqCamelComponent(@Qualifier("activemq-conn-factory") ActiveMQConnectionFactory activeMQConnectionFactory) {
-        return JmsComponent.jmsComponentClientAcknowledge(activeMQConnectionFactory);
+    public JmsComponent activeMqCamelComponent(ActiveMQConnectionFactory activeMqConnectionFactory) {
+        return JmsComponent.jmsComponentClientAcknowledge(activeMqConnectionFactory);
     }
 
-    @Bean("mq-conn-factory")
-    public MQConnectionFactory createMqConnectionFactory(@Value("${ibmmq.user}") String username, @Value("${ibmmq.password}") String password, @Value("${ibmmq.queue-manager}") String queueManager, @Value("${ibmmq.channel}") String channel, @Value("${ibmmq.host}") String host, @Value("${ibmmq.port}") Integer port) throws JMSException {
+    @Bean
+    public MQConnectionFactory mqConnectionFactory(@Value("${ibmmq.user}") String username, @Value("${ibmmq.password}") String password, @Value("${ibmmq.queue-manager}") String queueManager, @Value("${ibmmq.channel}") String channel, @Value("${ibmmq.host}") String host, @Value("${ibmmq.port}") Integer port) throws JMSException {
         MQConnectionFactory mqConnectionFactory = new MQConnectionFactory();
 
         mqConnectionFactory.setStringProperty(WMQ_HOST_NAME, host);
@@ -48,7 +47,7 @@ public class MainConfiguration {
     }
 
     @Bean(name = "ibmmq")
-    public JmsComponent ibmMqCamelComponent(@Qualifier("mq-conn-factory") MQConnectionFactory mqConnectionFactory) {
+    public JmsComponent ibmMqCamelComponent(MQConnectionFactory mqConnectionFactory) {
         return JmsComponent.jmsComponentClientAcknowledge(mqConnectionFactory);
     }
 

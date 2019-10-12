@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk.camel.processors.logging;
+package com.uvytautas.mqcrosswalk.camel.processor.logging;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;

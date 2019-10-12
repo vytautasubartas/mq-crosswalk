@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk.camel.processors.document;
+package com.uvytautas.mqcrosswalk.camel.processor.document;
 
 import com.uvytautas.mqcrosswalk.camel.util.Constants;
 import com.uvytautas.mqcrosswalk.domain.Document;

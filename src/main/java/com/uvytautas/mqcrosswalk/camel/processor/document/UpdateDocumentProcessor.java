@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk.camel.processors.document;
+package com.uvytautas.mqcrosswalk.camel.processor.document;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;

@@ -38,6 +38,7 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
                 .process(payloadHeaderProcessor)
                 .choice().when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.MASTER.toString()))
                 .log("Master received")
+                .to("xslt:xslt/header_remover.xsl")
                 .process(masterDocumentProcessor)
                 .endChoice()
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))

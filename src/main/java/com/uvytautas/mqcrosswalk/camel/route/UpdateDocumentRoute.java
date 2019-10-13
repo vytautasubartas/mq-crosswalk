@@ -15,6 +15,7 @@ public class UpdateDocumentRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:update").log("Update received")
+                .to("xslt:xslt/initial_transform.xsl")
                 .process(updateDocumentProcessor);
     }
 }

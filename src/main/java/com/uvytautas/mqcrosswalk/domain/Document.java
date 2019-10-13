@@ -14,6 +14,9 @@ public class Document {
     private String documentCode;
     private String documentBody;
 
+    public Document() {
+    }
+
     public Document(String documentCode, String documentBody) {
         this.documentCode = documentCode;
         this.documentBody = documentBody;

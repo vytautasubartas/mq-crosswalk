@@ -2,6 +2,7 @@ package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.uvytautas.mqcrosswalk.camel.processor.header.PayloadHeaderProcessor;
 import com.uvytautas.mqcrosswalk.camel.processor.logging.TraceLogProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
 
     public IbmMqInputRoute(TraceLogProcessor traceLogProcessor, PayloadHeaderProcessor payloadHeaderProcessor) {
         this.traceLogProcessor = traceLogProcessor;
-        this.uri = "ibmmq:queue:DEV.QUEUE.1";
+        this.uri = CommonConstants.Route.IBMMQ_INPUT.getUri();
         this.payloadHeaderProcessor = payloadHeaderProcessor;
     }
 
@@ -28,7 +29,7 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
         from(uri)
                 .process(traceLogProcessor)
                 .process(payloadHeaderProcessor)
-                .to("direct:documentGateway")
-                .to("activemq:queue:ibmmqconsumer");
+                .to(CommonConstants.Route.DOCUMENT_GATEWAY.getUri())
+                .to(CommonConstants.Route.ACTIVEMQ_OUTPUT.getUri());
     }
 }

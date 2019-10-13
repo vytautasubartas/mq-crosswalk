@@ -1,6 +1,7 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.uvytautas.mqcrosswalk.camel.processor.logging.TraceLogProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class HttpInputRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("netty4-http:http://0.0.0.0:9999/input")
+        from(CommonConstants.Route.HTTP_INPUT.getUri())
                 .process(traceLogProcessor)
                 .inOnly(ibmUriBased.getUri());
     }

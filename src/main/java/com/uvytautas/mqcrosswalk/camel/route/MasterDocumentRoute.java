@@ -1,6 +1,7 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.uvytautas.mqcrosswalk.camel.processor.document.MasterDocumentProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class MasterDocumentRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("direct:master").log("Master received")
+        from(CommonConstants.Route.DOCUMENT_MASTER.getUri()).log("Master received")
                 .to("xslt:xslt/initial_transform.xsl")
                 .process(masterDocumentProcessor);
 

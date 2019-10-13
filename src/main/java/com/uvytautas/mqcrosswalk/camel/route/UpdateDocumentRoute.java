@@ -1,6 +1,7 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.uvytautas.mqcrosswalk.camel.processor.document.UpdateDocumentProcessor;
+import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class UpdateDocumentRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("direct:update").log("Update received")
+        from(CommonConstants.Route.DOCUMENT_UPDATE.getUri()).log("Update received")
                 .to("xslt:xslt/initial_transform.xsl")
                 .process(updateDocumentProcessor);
     }

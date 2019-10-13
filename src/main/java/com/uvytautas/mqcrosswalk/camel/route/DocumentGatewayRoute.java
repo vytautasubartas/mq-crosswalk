@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class DocumentGatewayRoute extends RouteBuilder {
     @Override
     public void configure() {
-        from("direct:documentGateway").choice().when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.MASTER.toString()))
-                .to("direct:master")
+        from(CommonConstants.Route.DOCUMENT_GATEWAY.getUri()).choice().when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.MASTER.toString()))
+                .to(CommonConstants.Route.DOCUMENT_MASTER.getUri())
                 .endChoice()
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))
-                .to("direct:update")
+                .to(CommonConstants.Route.DOCUMENT_UPDATE.getUri())
                 .endChoice()
                 .otherwise().throwException(new DocumentTypeNotFoundException("Document type not found"))
                 .end();

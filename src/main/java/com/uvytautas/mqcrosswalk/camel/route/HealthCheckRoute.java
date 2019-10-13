@@ -1,5 +1,6 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
+import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,6 @@ import org.springframework.stereotype.Component;
 public class HealthCheckRoute extends RouteBuilder {
     @Override
     public void configure() {
-        from("netty4-http:http://0.0.0.0:9999/healthcheck").log(LoggingLevel.INFO, "Health Check ping");
+        from(CommonConstants.Route.HEALTH_CHECK.getUri()).log(LoggingLevel.INFO, "Health Check ping");
     }
 }

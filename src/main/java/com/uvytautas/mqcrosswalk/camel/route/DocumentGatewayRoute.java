@@ -1,5 +1,6 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
+import com.uvytautas.mqcrosswalk.camel.exception.DocumentTypeNotFoundException;
 import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import com.uvytautas.mqcrosswalk.camel.util.DocumentTypes;
 import org.apache.camel.builder.RouteBuilder;
@@ -15,7 +16,7 @@ public class DocumentGatewayRoute extends RouteBuilder {
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))
                 .to("direct:update")
                 .endChoice()
-                .otherwise().log("UNKNOWN DOC TYPE")
+                .otherwise().throwException(new DocumentTypeNotFoundException("Document type not found"))
                 .end();
     }
 }

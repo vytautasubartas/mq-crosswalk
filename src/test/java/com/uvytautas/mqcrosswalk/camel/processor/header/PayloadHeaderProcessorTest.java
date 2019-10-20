@@ -4,8 +4,8 @@ import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayInputStream;
@@ -14,7 +14,7 @@ public class PayloadHeaderProcessorTest {
 
     private Processor processor;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         processor = new PayloadHeaderProcessor();
     }

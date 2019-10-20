@@ -1,8 +1,12 @@
 package com.uvytautas.mqcrosswalk.camel.exception;
 
-public class DocumentTypeNotFoundException extends Exception {
+import java.util.Arrays;
+import java.util.List;
 
-    public DocumentTypeNotFoundException(String message) {
+public class DocumentTypeNotFoundException extends RuntimeException {
+private List<Object> variables;
+    public DocumentTypeNotFoundException(String message, Object...variables) {
         super(message);
+        this.variables = Arrays.asList(variables);
     }
 }

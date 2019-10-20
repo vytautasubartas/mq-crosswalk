@@ -16,7 +16,7 @@ public class DocumentGatewayRoute extends RouteBuilder {
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(DocumentTypes.UPDATE.toString()))
                 .to(CommonConstants.Route.DOCUMENT_UPDATE.getUri())
                 .endChoice()
-                .otherwise().throwException(new DocumentTypeNotFoundException("Document type not found"))
+                .otherwise().throwException(new DocumentTypeNotFoundException("error.doc-type.not-found"))
                 .end();
     }
 }

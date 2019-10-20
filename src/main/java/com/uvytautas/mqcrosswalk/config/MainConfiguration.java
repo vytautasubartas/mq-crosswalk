@@ -26,7 +26,7 @@ public class MainConfiguration {
 
     @Bean(name = "activemq")
     public JmsComponent activeMqCamelComponent(ActiveMQConnectionFactory activeMqConnectionFactory) {
-        return JmsComponent.jmsComponentClientAcknowledge(activeMqConnectionFactory);
+        return JmsComponent.jmsComponentAutoAcknowledge(activeMqConnectionFactory);
     }
 
     @Bean
@@ -48,7 +48,7 @@ public class MainConfiguration {
 
     @Bean(name = "ibmmq")
     public JmsComponent ibmMqCamelComponent(MQConnectionFactory mqConnectionFactory) {
-        return JmsComponent.jmsComponentClientAcknowledge(mqConnectionFactory);
+        return JmsComponent.jmsComponentAutoAcknowledge(mqConnectionFactory);
     }
 
 

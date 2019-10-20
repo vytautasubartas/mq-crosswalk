@@ -10,7 +10,7 @@ public class CommonConstants {
     public enum Route {
         DOCUMENT_UPDATE("direct:update"),
         DOCUMENT_MASTER("direct:master"),
-        DOCUMENT_GATEWAY("uri:documentGateway"),
+        DOCUMENT_GATEWAY("direct:documentGateway"),
         ACTIVEMQ_OUTPUT("activemq:queue:ibmmqconsumer"),
         HTTP_INPUT("netty4-http:http://0.0.0.0:9999/input"),
         HEALTH_CHECK("netty4-http:http://0.0.0.0:9999/healthcheck"),

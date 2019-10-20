@@ -19,7 +19,7 @@ public class PayloadHeaderProcessor implements Processor {
 
         Message message = exchange.getMessage();
 
-        ByteArrayInputStream payloadBody = exchange.getMessage().getBody(ByteArrayInputStream.class);
+        ByteArrayInputStream payloadBody = message.getBody(ByteArrayInputStream.class);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);

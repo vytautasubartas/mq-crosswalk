@@ -32,6 +32,5 @@ public class PayloadHeaderProcessorTest {
         Mockito.verify(exchange, Mockito.times(1)).getMessage();
         Mockito.verify(message, Mockito.times(1)).setHeader(CommonConstants.DOCUMENT_TYPE_HEADER, "MASTER");
         Mockito.verify(message, Mockito.times(1)).setHeader(CommonConstants.DOCUMENT_CODE_HEADER, "24143");
-
     }
 }

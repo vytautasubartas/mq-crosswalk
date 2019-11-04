@@ -21,7 +21,7 @@ public class UpdateDocumentProcessor implements Processor {
     }
 
     @Override
-    public void process(Exchange exchange) throws DocumentTypeNotFoundException {
+    public void process(Exchange exchange) {
         Message message = exchange.getMessage();
         String docCode = message.getHeaders().get(CommonConstants.DOCUMENT_CODE_HEADER).toString();
 

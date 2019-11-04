@@ -27,4 +27,9 @@ public class CommonConstants {
             return uri;
         }
     }
+
+    public enum DocumentTypes {
+        MASTER,
+        UPDATE
+    }
 }

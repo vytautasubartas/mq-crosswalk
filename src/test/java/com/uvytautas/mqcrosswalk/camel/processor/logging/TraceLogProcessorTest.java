@@ -19,11 +19,9 @@ import static org.junit.Assert.assertEquals;
 public class TraceLogProcessorTest {
     private TraceLogProcessor traceLogProcessor;
 
-
     @Before
     public void setUp() {
         traceLogProcessor = new TraceLogProcessor();
-
     }
 
     @Test
@@ -53,7 +51,5 @@ public class TraceLogProcessorTest {
                 .getFormattedMessage());
         assertEquals(Level.INFO, logsList.get(0)
                 .getLevel());
-
-
     }
 }

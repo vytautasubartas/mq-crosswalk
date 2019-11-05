@@ -19,6 +19,7 @@ public class HttpInputRoute extends RouteBuilder {
     @Override
     public void configure() {
         from(CommonConstants.Route.HTTP_INPUT.getUri())
+                .routeId(CommonConstants.Route.HTTP_INPUT.getId())
                 .process(traceLogProcessor)
                 .inOnly(ibmUriBased.getUri());
     }

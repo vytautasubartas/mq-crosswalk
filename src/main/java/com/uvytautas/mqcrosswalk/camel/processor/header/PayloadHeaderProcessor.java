@@ -20,7 +20,7 @@ public class PayloadHeaderProcessor implements Processor {
         Message message = exchange.getMessage();
 
         ByteArrayInputStream payloadBody = message.getBody(ByteArrayInputStream.class);
-
+        payloadBody.reset(); //TODO sort this out
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 

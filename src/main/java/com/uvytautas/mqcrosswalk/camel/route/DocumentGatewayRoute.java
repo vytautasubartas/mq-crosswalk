@@ -10,6 +10,7 @@ public class DocumentGatewayRoute extends RouteBuilder {
     @Override
     public void configure() {
         from(CommonConstants.Route.DOCUMENT_GATEWAY.getUri()).choice().when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(CommonConstants.DocumentTypes.MASTER.toString()))
+                .routeId(CommonConstants.Route.DOCUMENT_GATEWAY.getId())
                 .to(CommonConstants.Route.DOCUMENT_MASTER.getUri())
                 .endChoice()
                 .when(header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo(CommonConstants.DocumentTypes.UPDATE.toString()))

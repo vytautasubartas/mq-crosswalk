@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 public class HealthCheckRoute extends RouteBuilder {
     @Override
     public void configure() {
-        from(CommonConstants.Route.HEALTH_CHECK.getUri()).log(LoggingLevel.INFO, "Health Check ping");
+        from(CommonConstants.Route.HEALTH_CHECK.getUri()).routeId(CommonConstants.Route.HEALTH_CHECK.getId()).log(LoggingLevel.INFO, "Health Check ping");
     }
 }

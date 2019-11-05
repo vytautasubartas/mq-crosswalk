@@ -1,5 +1,8 @@
 package com.uvytautas.mqcrosswalk.camel.util;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.DigestUtils;
+
 public class CommonConstants {
     private CommonConstants() {
     }
@@ -18,13 +21,19 @@ public class CommonConstants {
 
 
         private final String uri;
+        private String id;
 
         Route(String uri) {
             this.uri = uri;
+            this.id = StringUtils.truncate(DigestUtils.md5DigestAsHex(uri.getBytes()), 10);
         }
 
         public String getUri() {
             return uri;
+        }
+
+        public String getId() {
+            return id;
         }
     }
 

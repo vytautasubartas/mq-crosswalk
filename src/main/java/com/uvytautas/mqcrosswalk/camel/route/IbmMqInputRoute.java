@@ -27,6 +27,7 @@ public class IbmMqInputRoute extends RouteBuilder implements UriBased {
     public void configure() {
 
         from(uri)
+                .routeId(CommonConstants.Route.IBMMQ_INPUT.getId())
                 .process(traceLogProcessor)
                 .process(payloadHeaderProcessor)
                 .to(CommonConstants.Route.DOCUMENT_GATEWAY.getUri())

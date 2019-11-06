@@ -16,6 +16,7 @@ public class UpdateDocumentRoute extends RouteBuilder {
     @Override
     public void configure() {
         from(CommonConstants.Route.DOCUMENT_UPDATE.getUri()).log("Update received")
+                .routeId(CommonConstants.Route.DOCUMENT_UPDATE.getId())
                 .to("xslt:xslt/initial_transform.xsl")
                 .process(updateDocumentProcessor);
     }

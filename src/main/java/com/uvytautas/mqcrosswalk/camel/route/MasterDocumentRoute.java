@@ -17,6 +17,7 @@ public class MasterDocumentRoute extends RouteBuilder {
     @Override
     public void configure() {
         from(CommonConstants.Route.DOCUMENT_MASTER.getUri()).log("Master received")
+                .routeId(CommonConstants.Route.DOCUMENT_MASTER.getId())
                 .to("xslt:xslt/initial_transform.xsl")
                 .process(masterDocumentProcessor);
 

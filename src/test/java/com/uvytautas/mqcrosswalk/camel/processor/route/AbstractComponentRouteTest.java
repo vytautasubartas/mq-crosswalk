@@ -1,5 +1,7 @@
 package com.uvytautas.mqcrosswalk.camel.processor.route;
 
+import com.ibm.mq.jms.MQConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
@@ -8,12 +10,17 @@ import org.apache.camel.spring.boot.CamelContextConfiguration;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import javax.jms.Session;
+import javax.jms.Topic;
 import java.util.ArrayList;
 
 @Primary
@@ -29,6 +36,25 @@ public abstract class AbstractComponentRouteTest {
     //Do we need configuration
 
     //Annotations
+
+    @Bean
+    @Primary
+    public MQConnectionFactory mqConnectionFactory() throws JMSException {
+        return Mockito.mock(MQConnectionFactory.class);
+    }
+
+    @Bean
+    @Primary
+    ActiveMQConnectionFactory jmsConnectionFactory() throws JMSException {
+        ActiveMQConnectionFactory connectionFactory = Mockito.mock(ActiveMQConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        Session session = Mockito.mock(Session.class);
+        Mockito.when(session.createTopic(Mockito.anyString())).thenReturn(Mockito.mock(Topic.class));
+        Mockito.when(connection.createSession(Mockito.anyBoolean(), Mockito.anyInt())).thenReturn(session);
+        Mockito.when(connectionFactory.createConnection()).thenReturn(connection);
+
+        return connectionFactory;
+    }
 
     @Bean
     CamelContextConfiguration camelContextConfiguration() {

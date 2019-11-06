@@ -23,6 +23,8 @@ public class ConsumeMasterComponentRouteTest extends AbstractComponentRouteTest 
             "<Assists>4</Assists>\n" +
             "</Document>";
 
+    private final String RESPONSE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Document><DocumentCode>4443</DocumentCode><Points>11</Points><Rebounds/><Assists>4</Assists><Steals/><Blocks/></Document>";
+
     @Override
     protected void sendPayload(final ProducerTemplate producerTemplate) {
         Map<String, Object> headers = new HashMap<>();
@@ -38,7 +40,7 @@ public class ConsumeMasterComponentRouteTest extends AbstractComponentRouteTest 
     }
 
     private String createResponsePayload() {
-        return PAYLOAD;
+        return RESPONSE;
     }
 
     @Override
@@ -48,6 +50,6 @@ public class ConsumeMasterComponentRouteTest extends AbstractComponentRouteTest 
 
     @Override
     protected void configureAdvice(final AdviceWithRouteBuilder adviceWithRouteBuilder) {
-        adviceWithRouteBuilder.weaveByToUri("*").replace().to(MOCK_ENDPOINT);
+        adviceWithRouteBuilder.weaveAddLast().to(MOCK_ENDPOINT);
     }
 }

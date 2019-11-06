@@ -17,7 +17,7 @@ public class CommonConstants {
         ACTIVEMQ_OUTPUT("activemq:queue:ibmmqconsumer"),
         HTTP_INPUT("netty4-http:http://0.0.0.0:9999/input"),
         HEALTH_CHECK("netty4-http:http://0.0.0.0:9999/healthcheck"),
-        IBMMQ_INPUT("ibmmq:queue:DEV.QUEUE.1");
+        IBMMQ_INPUT("ibmmq:queue:DEV.QUEUE.1?jmsMessageType=Text");
 
 
         private final String uri;

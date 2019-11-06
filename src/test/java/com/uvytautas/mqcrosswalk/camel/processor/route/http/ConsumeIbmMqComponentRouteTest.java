@@ -9,7 +9,7 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 
-import java.io.ByteArrayInputStream;
+import java.util.stream.IntStream;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
@@ -24,15 +24,20 @@ public class ConsumeIbmMqComponentRouteTest extends AbstractComponentRouteTest {
 
     @Override
     protected void sendPayload(final ProducerTemplate producerTemplate) {
-        producerTemplate.sendBody(new ByteArrayInputStream(PAYLOAD.getBytes()));
+        producerTemplate.sendBody(PAYLOAD);
     }
 
     @Override
     protected void assertMock(final MockEndpoint mockEndpoint) {
-        mockEndpoint.expectedMessageCount(2); // why two messages
-        mockEndpoint.message(0).header(CommonConstants.DOCUMENT_CODE_HEADER).isEqualTo("4443");
-        mockEndpoint.message(0).header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo("MASTER");
-        mockEndpoint.message(0).body(String.class).isEqualTo(createResponsePayload());
+        int expectedCount = 2;
+        mockEndpoint.expectedMessageCount(expectedCount);
+        IntStream.range(0, expectedCount).boxed()
+                .map(mockEndpoint::message)
+                .forEach(value -> {
+                    value.header(CommonConstants.DOCUMENT_CODE_HEADER).isEqualTo("4443");
+                    value.header(CommonConstants.DOCUMENT_TYPE_HEADER).isEqualTo("MASTER");
+                    value.body(String.class).isEqualTo(createResponsePayload());
+                });
     }
 
     private String createResponsePayload() {

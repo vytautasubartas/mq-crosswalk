@@ -2,11 +2,15 @@ package com.uvytautas.mqcrosswalk.camel.processor.route.http;
 
 import com.uvytautas.mqcrosswalk.camel.processor.route.AbstractComponentRouteTest;
 import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
+import com.uvytautas.mqcrosswalk.domain.Document;
+import com.uvytautas.mqcrosswalk.repositories.DocumentRepository;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +19,12 @@ import java.util.Map;
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = ConsumeUpdateComponentRouteTest.class
 )
+@DirtiesContext
 @TestConfiguration
 public class ConsumeUpdateComponentRouteTest extends AbstractComponentRouteTest {
+
+    @Autowired
+    private DocumentRepository documentRepository;
 
     private final String PAYLOAD = "<Document type=\"MASTER\" code=\"4443\">\n" +
             "<Points>11</Points>\n" +
@@ -25,6 +33,8 @@ public class ConsumeUpdateComponentRouteTest extends AbstractComponentRouteTest 
 
     @Override
     protected void sendPayload(final ProducerTemplate producerTemplate) {
+
+        documentRepository.save(new Document("4443", "<BODY></BODY>"));
         Map<String, Object> headers = new HashMap<>();
         headers.put(CommonConstants.DOCUMENT_CODE_HEADER, "4443");
         producerTemplate.sendBodyAndHeaders(PAYLOAD, headers);

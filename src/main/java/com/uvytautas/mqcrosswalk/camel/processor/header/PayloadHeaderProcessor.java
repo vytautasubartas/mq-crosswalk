@@ -19,13 +19,12 @@ public class PayloadHeaderProcessor implements Processor {
 
         Message message = exchange.getMessage();
 
-        ByteArrayInputStream payloadBody = message.getBody(ByteArrayInputStream.class);
-        payloadBody.reset(); //TODO sort this out
+        byte[] payloadBody = message.getBody(byte[].class);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(payloadBody);
+        Document document = builder.parse(new ByteArrayInputStream(payloadBody));
         String documentCode = document.getDocumentElement().getAttribute("code");
         String documentType = document.getDocumentElement().getAttribute("type");
 

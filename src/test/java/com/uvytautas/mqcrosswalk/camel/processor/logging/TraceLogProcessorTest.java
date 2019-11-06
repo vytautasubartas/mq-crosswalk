@@ -17,6 +17,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class TraceLogProcessorTest {
+    //Leader election
+    //Rebalansing
+    //Hazelcast
+    //mutation tests
+    //<groupId>org.pitest</groupId> kaip gaming gateway
     private TraceLogProcessor traceLogProcessor;
 
     @Before

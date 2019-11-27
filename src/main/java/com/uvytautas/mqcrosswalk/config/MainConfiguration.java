@@ -8,6 +8,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.jms.JMSException;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.util.function.Supplier;
 
 import static com.ibm.msg.client.wmq.common.CommonConstants.*;
 
@@ -52,4 +57,17 @@ public class MainConfiguration {
     }
 
 
+    @Bean
+    Supplier<DocumentBuilder> documentBuilderSupplier() throws ParserConfigurationException {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+        return () -> {
+            try {
+                return documentBuilderFactory.newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
+                throw new IllegalArgumentException();
+            }
+        };
+    }
 }

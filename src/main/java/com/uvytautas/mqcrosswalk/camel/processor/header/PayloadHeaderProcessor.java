@@ -7,23 +7,26 @@ import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
+import java.util.function.Supplier;
 
 @Component
 public class PayloadHeaderProcessor implements Processor {
+    private final Supplier<DocumentBuilder> documentBuilderSupplier;
+
+    public PayloadHeaderProcessor(final Supplier<DocumentBuilder> documentBuilderSupplier) {
+        this.documentBuilderSupplier = documentBuilderSupplier;
+    }
+
     @Override
     public void process(Exchange exchange) throws Exception {
 
         Message message = exchange.getMessage();
 
         byte[] payloadBody = message.getBody(byte[].class);
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        DocumentBuilder builder = documentBuilderSupplier.get();
         Document document = builder.parse(new ByteArrayInputStream(payloadBody));
         String documentCode = document.getDocumentElement().getAttribute("code");
         String documentType = document.getDocumentElement().getAttribute("type");

@@ -8,22 +8,28 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.io.ByteArrayInputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.util.function.Supplier;
 
 public class PayloadHeaderProcessorTest {
 
     private Processor processor;
 
+    @SuppressWarnings("unchecked")
     @Before
-    public void setUp() {
-        processor = new PayloadHeaderProcessor();
+    public void setUp() throws ParserConfigurationException {
+        Supplier<DocumentBuilder> documentBuilderSupplier = (Supplier<DocumentBuilder>) Mockito.mock(Supplier.class);
+        Mockito.when(documentBuilderSupplier.get()).thenReturn(DocumentBuilderFactory.newInstance().newDocumentBuilder());
+        processor = new PayloadHeaderProcessor(documentBuilderSupplier);
     }
 
     @Test
     public void process() throws Exception {
         final Exchange exchange = Mockito.mock(Exchange.class);
         final Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getBody(ByteArrayInputStream.class)).thenReturn(new ByteArrayInputStream("<DOCUMENT code=\"24143\" type=\"MASTER\"></DOCUMENT>".getBytes()));
+        Mockito.when(message.getBody(byte[].class)).thenReturn("<DOCUMENT code=\"24143\" type=\"MASTER\"></DOCUMENT>".getBytes());
 
         Mockito.when(exchange.getMessage()).thenReturn(message);
 

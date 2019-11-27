@@ -8,8 +8,8 @@ import org.springframework.jms.annotation.EnableJms;
 @EnableJms
 public class MqCrosswalkApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MqCrosswalkApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MqCrosswalkApplication.class, args);
+    }
 
 }

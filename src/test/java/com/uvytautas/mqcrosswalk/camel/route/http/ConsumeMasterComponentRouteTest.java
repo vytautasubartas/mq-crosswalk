@@ -1,40 +1,32 @@
-package com.uvytautas.mqcrosswalk.camel.processor.route.http;
+package com.uvytautas.mqcrosswalk.camel.route.http;
 
-import com.uvytautas.mqcrosswalk.camel.processor.route.AbstractComponentRouteTest;
+
+import com.uvytautas.mqcrosswalk.camel.route.AbstractComponentRouteTest;
 import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
-import com.uvytautas.mqcrosswalk.domain.Document;
-import com.uvytautas.mqcrosswalk.repositories.DocumentRepository;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        classes = ConsumeUpdateComponentRouteTest.class
+        classes = ConsumeMasterComponentRouteTest.class
 )
-@DirtiesContext
 @TestConfiguration
-public class ConsumeUpdateComponentRouteTest extends AbstractComponentRouteTest {
-
-    @Autowired
-    private DocumentRepository documentRepository;
-
+public class ConsumeMasterComponentRouteTest extends AbstractComponentRouteTest {
     private final String PAYLOAD = "<Document type=\"MASTER\" code=\"4443\">\n" +
             "<Points>11</Points>\n" +
             "<Assists>4</Assists>\n" +
             "</Document>";
 
+    private final String RESPONSE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Document><DocumentCode>4443</DocumentCode><Points>11</Points><Rebounds/><Assists>4</Assists><Steals/><Blocks/></Document>";
+
     @Override
     protected void sendPayload(final ProducerTemplate producerTemplate) {
-
-        documentRepository.save(new Document("4443", "<BODY></BODY>"));
         Map<String, Object> headers = new HashMap<>();
         headers.put(CommonConstants.DOCUMENT_CODE_HEADER, "4443");
         producerTemplate.sendBodyAndHeaders(PAYLOAD, headers);
@@ -44,20 +36,20 @@ public class ConsumeUpdateComponentRouteTest extends AbstractComponentRouteTest 
     protected void assertMock(final MockEndpoint mockEndpoint) {
         mockEndpoint.expectedMessageCount(1);
         mockEndpoint.message(0).header(CommonConstants.DOCUMENT_CODE_HEADER).isEqualTo("4443");
-        mockEndpoint.message(0).body(String.class).isEqualTo(createResponsePayload());//where to mock updates
+        mockEndpoint.message(0).body(String.class).isEqualTo(createResponsePayload());// kaip xslt transforma verifyint
     }
 
     private String createResponsePayload() {
-        return PAYLOAD;
+        return RESPONSE;
     }
 
     @Override
     protected String getEndpointToTest() {
-        return CommonConstants.Route.DOCUMENT_UPDATE.getId();
+        return CommonConstants.Route.DOCUMENT_MASTER.getId();
     }
 
     @Override
     protected void configureAdvice(final AdviceWithRouteBuilder adviceWithRouteBuilder) {
-        adviceWithRouteBuilder.weaveByToUri("*").replace().to(MOCK_ENDPOINT);
+        adviceWithRouteBuilder.weaveAddLast().to(MOCK_ENDPOINT);
     }
 }

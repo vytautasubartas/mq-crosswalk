@@ -1,4 +1,4 @@
-package com.uvytautas.mqcrosswalk.camel.processor.route;
+package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.ibm.mq.jms.MQConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -32,10 +32,6 @@ public abstract class AbstractComponentRouteTest {
 
     @Autowired
     private CamelContext camelContext;
-
-    //Do we need configuration
-
-    //Annotations
 
     @Bean
     @Primary

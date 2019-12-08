@@ -1,6 +1,11 @@
 package com.uvytautas.mqcrosswalk.camel.route;
 
 import com.ibm.mq.jms.MQConnectionFactory;
+import java.util.ArrayList;
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import javax.jms.Session;
+import javax.jms.Topic;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
@@ -17,17 +22,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.Topic;
-import java.util.ArrayList;
-
 @Primary
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public abstract class AbstractComponentRouteTest {
-    protected static final String MOCK_ENDPOINT = "mock:response";
+    static final String MOCK_ENDPOINT = "mock:response";
     private static final String START_ENDPOINT = "direct:start";
 
     @Autowired

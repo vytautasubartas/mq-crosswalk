@@ -1,16 +1,14 @@
-package com.uvytautas.mqcrosswalk.camel.route.http;
+package com.uvytautas.mqcrosswalk.camel.route;
 
 
-import com.uvytautas.mqcrosswalk.camel.route.AbstractComponentRouteTest;
 import com.uvytautas.mqcrosswalk.camel.util.CommonConstants;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
